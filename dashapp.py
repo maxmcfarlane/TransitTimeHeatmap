@@ -12,8 +12,10 @@ import plotly.express as px
 
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
+                )
 
+server = app.server
 # Define the layout of the app
 
 LOWER = 45
@@ -94,6 +96,7 @@ app.layout = html.Div([
                                     )
                                 ])
                             ], width=6),
+                            dbc.Tooltip('This feature has not been implemented yet.', target='granularity-column'),
                             dbc.Col([
                                 html.H4('Granularity:'),
                                 dbc.Row([
@@ -110,7 +113,7 @@ app.layout = html.Div([
                                         width=12,
                                     ),
                                 ], justify='center'),
-                            ], width=6)
+                            ], width=6, id='granularity-column')
                         ]),
 
                     ]),
@@ -145,6 +148,7 @@ app.layout = html.Div([
                 ]),
             ]),
             dbc.Col([
+                dbc.Tooltip('This feature has not been implemented yet.', target='target-card'),
                 dbc.Card([
                     dbc.CardHeader(),
                     dbc.CardBody([
@@ -167,7 +171,7 @@ app.layout = html.Div([
 
                     ]),
                     dbc.CardHeader(),
-                ]),
+                ], id='target-card'),
             ]),
         ], style={'padding-top': f'{settings_pad}vh'})
     ], style={'height': f'{100-int(map_height)-settings_pad}vh', 'width': '100%', 'padding-top': f'{settings_pad}vh'})
@@ -254,6 +258,9 @@ def update_figure(opacity, radius, range_, n_hex, lat_lon_target, fig):
 #     latlong = ''
 #     return [latlong]
 
+@app.route("/")
+def hello():
+     return "Hello World!"
 
 if __name__ == '__main__':
     app.run_server(debug=False)
