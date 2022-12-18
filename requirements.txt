@@ -1,0 +1,7 @@
+dash
+googlemaps
+tqdm
+plotly
+dash_bootstrap_components
+gunicorn
+pandas
