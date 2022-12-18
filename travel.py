@@ -6,7 +6,7 @@ import math
 import os
 from tqdm import tqdm
 QUEH = (55.8626549675043, -4.339570424412862)
-
+DIR = os.path.dirname(__file__)
 DEPARTURES = {
     'home': (55.872449036837395, -4.318167046624427)
 }
@@ -22,7 +22,7 @@ def get_travel_time(departures: list, destination=QUEH, arrival_time=None, weeke
     while not weekend and arrival_time.weekday() > 4:
         arrival_time = arrival_time + datetime.timedelta(days=1)
 
-    key = pd.read_json('./key.json')
+    key = pd.read_json(f'{DIR}/key.json')
 
     # Replace YOUR_API_KEY with your actual API key
     gmaps = googlemaps.Client(key=key['key'].squeeze())
@@ -34,10 +34,10 @@ def get_travel_time(departures: list, destination=QUEH, arrival_time=None, weeke
         'key': zip(departures, [destination] * len(departures), [arrival_time] * len(departures))})
 
 
-    if os.path.exists('./results.p'):
-        results = pickle.load(open('./results.p', 'rb'))
+    if os.path.exists(f'{DIR}/results.p'):
+        results = pickle.load(open(f'{DIR}/results.p', 'rb'))
         results = results.drop_duplicates()
-        pickle.dump(results, open('./results.p', 'wb'))
+        pickle.dump(results, open(f'{DIR}/results.p', 'wb'))
         results_dict = results.set_index(['coordinates', 'destination', 'arrival_time']).to_dict()['travel_time']
         results['key'] = list(zip(results['coordinates'], results['destination'], results['arrival_time']))
         # rnd = 4
@@ -97,6 +97,6 @@ def get_travel_time(departures: list, destination=QUEH, arrival_time=None, weeke
         results_['travel_time'] = _travel_times
 
     results = pd.concat([results, results_]).dropna().drop_duplicates()
-    pickle.dump(results, open('./results.p', 'wb'))
+    pickle.dump(results, open(f'{DIR}/results.p', 'wb'))
     travel_times = inputs_['key'].map(results.set_index(['coordinates', 'destination', 'arrival_time']).to_dict()['travel_time']).tolist()
     return travel_times

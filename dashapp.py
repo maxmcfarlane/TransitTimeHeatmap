@@ -23,11 +23,13 @@ LOWER = 45
 map_height = 60
 settings_pad = 2
 
-if os.path.exists('./fig.p'):
-    fig = pickle.load(open('./fig.p', 'rb'))
+DIR = os.path.dirname(__file__)
+
+if os.path.exists(f'{DIR}/fig.p'):
+    fig = pickle.load(open(f'{DIR}/fig.p', 'rb'))
 else:
     fig = generate_fig(m.centre, m.target, m.radius_miles, opacity=0.4)
-    pickle.dump(fig, open('./fig.p', 'wb'))
+    pickle.dump(fig, open(f'{DIR}/fig.p', 'wb'))
 
 app.layout = html.Div([
     # Add the plotly figure
