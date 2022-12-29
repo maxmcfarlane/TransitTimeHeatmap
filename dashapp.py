@@ -10,10 +10,10 @@ import main as m
 import plotly.figure_factory as ff
 import plotly.express as px
 import flask
-server = flask.Flask(__name__)
+server_ = flask.Flask(__name__)
 external_stylesheets = [dbc.themes.BOOTSTRAP]
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server)
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server_)
 
 # Define the layout of the app
 
@@ -258,6 +258,8 @@ def update_figure(opacity, radius, range_, n_hex, lat_lon_target, fig):
 #         pass
 #     latlong = ''
 #     return [latlong]
+
+server = app.server
 
 if __name__ == '__main__':
     app.run_server()

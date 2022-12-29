@@ -1,1 +1,1 @@
-web: gunicorn dashapp:app --no-sendfile --timeout 180
+web: gunicorn dashapp:server --no-sendfile --timeout 180
