@@ -19,9 +19,6 @@ def create_app(server_):
                     external_stylesheets=external_stylesheets, server=server_)
 
     # Define the layout of the app
-
-    LOWER = 45
-
     map_height = 60
     settings_pad = 2
 
