@@ -5,4 +5,3 @@ plotly
 dash_bootstrap_components
 gunicorn
 pandas
-Frozen-Flask
