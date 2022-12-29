@@ -14,7 +14,9 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 
 def create_app(server_):
 
-    app = dash.Dash(__name__, external_stylesheets=external_stylesheets, server=server_)
+    app = dash.Dash(__name__,
+                    title='Transport Heatmap',
+                    external_stylesheets=external_stylesheets, server=server_)
 
     # Define the layout of the app
 
@@ -86,7 +88,7 @@ def create_app(server_):
                             dbc.Row([
                                 dbc.Col([
                                     html.Div([
-                                        html.H4('Upper limit [minutes]:'),
+                                        html.H4('Limits [minutes]:'),
                                         dbc.Spinner(
                                             dcc.RangeSlider(id='limit-slider',
                                                             min=0,
@@ -105,6 +107,7 @@ def create_app(server_):
                                         dbc.Col(
                                             dbc.Spinner(
                                                 dcc.Slider(id='granularity-slider',
+                                                           disabled=True,
                                                            min=10,
                                                            max=50,
                                                            step=5,
@@ -127,6 +130,7 @@ def create_app(server_):
                 dbc.Col([
                     dbc.Card([
                         dbc.CardHeader(),
+                        dbc.Tooltip('This feature has not been implemented yet.', target='centre-column'),
                         dbc.CardBody([
                             dbc.Row([
                                 dbc.Col([
@@ -135,6 +139,7 @@ def create_app(server_):
                                         dbc.Col(
                                             dcc.Input(id='centre_input',
                                                       type='text',
+                                                      disabled=True,
                                                       value=f'{m.centre[0]}, {m.centre[1]}',
                                                       placeholder='latitude, longitude',
                                                       debounce=True,
@@ -142,7 +147,7 @@ def create_app(server_):
                                             width=12,
                                         ),
                                     ], justify='center'),
-                                ], width=12),
+                                ], width=12, id='centre-column'),
                             ]),
 
                         ]),
@@ -164,6 +169,7 @@ def create_app(server_):
                                                       value=f'{m.target[0]}, {m.target[1]}',
                                                       placeholder='latitude, longitude',
                                                       debounce=True,
+                                                      disabled=True,
                                                       style={'width': '100%'}),
                                             width=12,
                                         ),
@@ -207,18 +213,22 @@ def create_app(server_):
         max_ = int(max(fig['data'][0]['z']))
         zoom_ = fig['layout']['mapbox']['zoom']
         center_ = fig['layout']['mapbox']['center']
+
         if dash.callback_context.triggered_id == 'opacity-slider':
             fig['data'][0]['marker']['opacity'] = opacity
-        elif dash.callback_context.triggered_id == 'granularity-slider':
-            fig = generate_fig(m.centre, target, radius, opacity=opacity, nx_hexagon=n_hex)
+
+        # elif dash.callback_context.triggered_id == 'granularity-slider':
+        #     fig = generate_fig(m.centre, target, radius, opacity=opacity, nx_hexagon=n_hex)
 
         elif dash.callback_context.triggered_id == 'radius-slider':
             fig = generate_fig(m.centre, target, radius, opacity=opacity, nx_hexagon=n_hex)
             max_ = int(max(fig['data'][0]['z']))
             range_ = (0, max_)
             print()
+
         elif dash.callback_context.triggered_id == 'limit-slider':
             fig = generate_fig(m.centre, target, radius, opacity=opacity, range_color=range_, nx_hexagon=n_hex)
+
         else:
             range_ = (0, max_)
 
