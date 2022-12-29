@@ -16,6 +16,8 @@ def create_app(server_):
 
     app = dash.Dash(__name__,
                     title='Transport Heatmap',
+                    meta_tags=[{'name': 'viewport',
+                                'content': 'width=device-width, initial-scale=1.0, maximum-scale=1.2, minimum-scale=0.5,'}],
                     external_stylesheets=external_stylesheets, server=server_)
 
     # Define the layout of the app
@@ -59,7 +61,7 @@ def create_app(server_):
                                                        className='slider'),
                                         )
                                     ])
-                                ], width=6),
+                                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6),
                                 dbc.Col([
                                     html.Div([
                                         html.H4('Opacity:'),
@@ -71,13 +73,13 @@ def create_app(server_):
                                                    marks={i / 10: f'{i / 10}' for i in range(0, 11)},
                                                    className='slider'),
                                     ])
-                                ], width=6)
+                                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6)
                             ]),
 
                         ]),
                         dbc.CardHeader(),
                     ]),
-                ]),
+                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6, style={'padding-top': f'{settings_pad}vh'}),
                 dbc.Col([
                     dbc.Card([
                         dbc.CardHeader(),
@@ -96,7 +98,7 @@ def create_app(server_):
                                                             className='slider'),
                                         )
                                     ])
-                                ], width=6),
+                                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6),
                                 dbc.Tooltip('This feature has not been implemented yet.', target='granularity-column'),
                                 dbc.Col([
                                     html.H4('Granularity:'),
@@ -115,13 +117,13 @@ def create_app(server_):
                                             width=12,
                                         ),
                                     ], justify='center'),
-                                ], width=6, id='granularity-column')
+                                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6, id='granularity-column')
                             ]),
 
                         ]),
                         dbc.CardHeader(),
                     ]),
-                ])
+                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6, style={'padding-top': f'{settings_pad}vh'})
             ]),
             dbc.Row([
                 dbc.Col([
@@ -150,7 +152,7 @@ def create_app(server_):
                         ]),
                         dbc.CardHeader(),
                     ]),
-                ]),
+                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6, style={'padding-top': f'{settings_pad}vh'}),
                 dbc.Col([
                     dbc.Tooltip('This feature has not been implemented yet.', target='target-card'),
                     dbc.Card([
@@ -177,10 +179,11 @@ def create_app(server_):
                         ]),
                         dbc.CardHeader(),
                     ], id='target-card'),
-                ]),
-            ], style={'padding-top': f'{settings_pad}vh'})
-        ], style={'height': f'{100-int(map_height)-settings_pad}vh', 'width': '100%', 'padding-top': f'{settings_pad}vh'})
-    ], style={'height': '100vh', 'width': '100%'})
+                ], xs=12, sm=12, md=12, lg=6, xl=6, xxl=6, style={'padding-top': f'{settings_pad}vh'}),
+            ])
+        ], style={'height': f'{100-int(map_height)-int(2*settings_pad)}vh', 'width': '100%', 'padding-top': f'{settings_pad}vh'})
+    ], style={'height': '100vh', 'width': '100%'}
+    )
 
 
     # Define a callback function to update the figure's opacity when the slider value changes
