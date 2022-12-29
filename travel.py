@@ -22,10 +22,6 @@ def get_travel_time(departures: list, destination=QUEH, arrival_time=None, weeke
     while not weekend and arrival_time.weekday() > 4:
         arrival_time = arrival_time + datetime.timedelta(days=1)
 
-    key = pd.read_json(f'{DIR}/key.json')
-
-    # Replace YOUR_API_KEY with your actual API key
-    gmaps = googlemaps.Client(key=key['key'].squeeze())
     _travel_times = []
     inputs_ = pd.DataFrame({
         'coordinates': departures,
@@ -50,6 +46,16 @@ def get_travel_time(departures: list, destination=QUEH, arrival_time=None, weeke
     else:
         results_dict = {}
         results = pd.DataFrame(results_dict)
+
+    try:
+        key = pd.read_json(f'{DIR}/key.json')
+
+        # Replace YOUR_API_KEY with your actual API key
+        gmaps = googlemaps.Client(key=key['key'].squeeze())
+    except FileNotFoundError as e:
+        travel_times = inputs_['key'].map(
+            results.set_index(['coordinates', 'destination', 'arrival_time']).to_dict()['travel_time']).tolist()
+        return travel_times
 
     if len(results) == 0:
 
