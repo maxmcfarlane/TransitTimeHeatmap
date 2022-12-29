@@ -15,7 +15,6 @@ external_stylesheets = [dbc.themes.BOOTSTRAP]
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets,
                 )
 
-server = app.server
 # Define the layout of the app
 
 LOWER = 45
@@ -260,9 +259,7 @@ def update_figure(opacity, radius, range_, n_hex, lat_lon_target, fig):
 #     latlong = ''
 #     return [latlong]
 
-@app.route("/")
-def hello():
-     return "Hello World!"
+server = app.server
 
 if __name__ == '__main__':
     app.run_server(debug=False)
