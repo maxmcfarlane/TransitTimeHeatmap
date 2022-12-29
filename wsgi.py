@@ -1,3 +1,6 @@
-import flask
+"""Application entry point"""
 
-flask.Flask()
+
+if __name__ == "__main__":
+    app.run(debug=False)
+
